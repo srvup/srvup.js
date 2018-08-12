@@ -12,19 +12,33 @@ npm install --save srvup
 
 ## Usage
 
+#### `GET` requests
 ```jsx
 import React, { Component } from 'react'
 
-import MyComponent from 'srvup'
+import srvup from 'srvup'
+srvup.api(API_PUBLIC_KEY)
 
 class Example extends Component {
-  render () {
-    return (
-      <MyComponent />
-    )
-  }
+    handleResponse = (responseData, status) =>{
+        console.log(responseData, status)
+        // set your state here
+    }
+
+
+    componentDidMount(){
+        const includeUserAuthToken = false
+        srvup.get('/posts/', this.handleResponse, includeUserAuthToken)
+    }
+
+    render () {
+        return (
+          <h1>Srvup Client<h1>
+        )
+    }
 }
 ```
+
 
 ## License
 
