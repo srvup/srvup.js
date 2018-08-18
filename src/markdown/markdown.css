@@ -12,3 +12,9 @@
     max-height: 300px !important;
     overflow-y: scroll;
 }
+
+.markdown-preview-cutoff {
+    min-height: 0px !important;
+    max-height: 150px !important;
+    overflow-y: hidden;
+}

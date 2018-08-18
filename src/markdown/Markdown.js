@@ -40,16 +40,16 @@ class Markdown extends Component {
     return (
       <div>
       <ReactMarkdown
-        className={`${this.props.className} ${previewClass} ${largePreviewClass} ${minHeightClass}`}
-        source={input}
-        disallowedTypes={disallowed}
-        plugins={[shortcodes]}
-        renderers={{
-          blockquote: BlockquoteRender,
-          code: CodeRender,
-          text: emojiSupport,
-          shortcode: ShortCodeRenderer}}
-      />
+          className={`${this.props.className} ${previewClass} ${largePreviewClass} ${minHeightClass} ${previewCutoffClass}`}
+          source={input}
+          disallowedTypes={disallowed}
+          plugins={[shortcodes]}
+          renderers={{
+            blockquote: BlockquoteRender,
+            code: CodeRender,
+            text: emojiSupport,
+            shortcode: ShortCodeRenderer}}
+        />
       {this.props.previewCutoff && 
           <button className='btn btn-link p-0' onClick={this.toggleCutoff}>
           {this.state.previewCutoff === true ? 
