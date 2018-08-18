@@ -177,6 +177,15 @@ class SrvupAPI {
       })
   }
 
+  comments(path, callback){
+    return this.get(path, callback)
+  }
+
+  commentCreate(path, content, callback, parent=null){
+    return this.post(path, {content: content, parent: parent}, callback)
+  }
+  
+
 
   posts = (callback, slug = null) => {
     let path = '/posts/'
