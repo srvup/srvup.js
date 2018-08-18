@@ -4,10 +4,12 @@
   "description": "srvup api client",
   "keywords": [
     "srvup",
-    "srvup-api"
+    "srvup-api",
+    "srvup ui elements",
+    "srvup api"
   ],
-  "repository": { 
-    "type": "git", 
+  "repository": {
+    "type": "git",
     "url": "https://github.com/srvup/srvup.js.git"
   },
   "author": "Justin Mitchel <hello@srvup.com> (https://www.srvup.com)",
@@ -39,13 +41,13 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "cross-env": "^5.1.4",
-    "eslint": "^5.0.1",
+    "eslint": "^5.4.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-config-standard-react": "^6.0.0",
-    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^6.0.1",
     "eslint-plugin-promise": "^3.8.0",
-    "eslint-plugin-react": "^7.10.0",
+    "eslint-plugin-react": "^7.11.1",
     "eslint-plugin-standard": "^3.1.0",
     "gh-pages": "^1.2.0",
     "react": "^16.4.1",
@@ -63,6 +65,13 @@
     "dist"
   ],
   "dependencies": {
-    "history": "^4.7.2"
+    "emoji-dictionary": "^1.0.9",
+    "history": "^4.7.2",
+    "react-markdown": "^3.4.1",
+    "react-syntax-highlighter": "^8.0.1",
+    "remark": "^9.0.0",
+    "remark-iframes": "^3.0.4",
+    "remark-react": "^4.0.3",
+    "remark-shortcodes": "^0.2.1"
   }
 }

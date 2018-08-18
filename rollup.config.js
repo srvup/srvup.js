@@ -1,10 +1,11 @@
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
 import external from 'rollup-plugin-peer-deps-external'
+import peerDepsExternal from 'rollup-plugin-peer-deps-external'
 import postcss from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
-
+import ReactMarkdown from 'react-markdown'
 import pkg from './package.json'
 
 export default {
@@ -22,7 +23,9 @@ export default {
     }
   ],
   plugins: [
-    external(),
+    external({
+      includeDependencies: true
+    }),
     postcss({
       modules: true
     }),

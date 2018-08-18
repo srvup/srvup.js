@@ -1,3 +1,5 @@
+import {Markdown} from './markdown'
+
 var History = require("history")
 
 function checkResponseStatus (response) {
@@ -36,8 +38,44 @@ class SrvupAPI {
       this.token = token
   }
 
+  login = (username, password, loginCallback) => {
+    return this.post('/login/', {username: username, password:password}, loginCallback, false)
+  }
+
+  verityToken = (path, callback) => {
+    const endpoint  = this.getEndpoint(path)
+    const options   = this.getOptions('post', {"token": this.token}, false)
+    const _this = this
+    let status = 0
+    fetch(endpoint, options)
+    .then(function (response) {
+        status = response.status
+        return response.json()
+      }).then(function (data) {
+        if (status === 200) {
+          _this.userToken(data['token'])
+        } else {
+          _this.userToken(null)
+        }
+        callback(data, status)
+        return (data, status)
+      })
+      .catch(function (ex) {
+        // alert('An unexpected error occured. Please try again')
+        console.log('parsing failed', ex)
+      })
+  }
+
+  verifyUser = (callback) => {
+    return this.verityToken('/auth/verify/', callback)    
+  }
+
+  refreshUser = (callback) => {
+    return this.verityToken('/auth/refresh/', callback)
+  }
+
   getEndpoint = (path) => {
-      return `${this.apiEndpoint}${path}`
+     return `${this.apiEndpoint}${path}`
   }
 
   getOptions = (method, data = {}, includeAuth = true) => {
@@ -141,4 +179,5 @@ class SrvupAPI {
 }
 
 const Srvup = new SrvupAPI()
+export {Markdown}
 export default Srvup
