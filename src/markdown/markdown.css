@@ -1,0 +1,14 @@
+.srvup-markdown {
+    min-height: 250px
+}
+.markdown-preview {
+    min-height: 0px !important;
+    max-height: 150px !important;
+    overflow-y: scroll;
+}
+
+.markdown-large-preview {
+    min-height: 0px !important;
+    max-height: 300px !important;
+    overflow-y: scroll;
+}

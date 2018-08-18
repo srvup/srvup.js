@@ -176,6 +176,22 @@ class SrvupAPI {
         console.log('parsing failed', ex)
       })
   }
+
+
+  posts = (callback, slug = null) => {
+    let path = '/posts/'
+    if (slug !== null) {
+      path = `/posts/${slug}/`
+    }
+    return this.get(path, callback)
+  }
+  pages = (callback, slug = null) => {
+    let path = '/pages/'
+    if (slug !== null) {
+      path = `/pages/${slug}/`
+    }
+    return this.get(path, callback)
+  }
 }
 
 const Srvup = new SrvupAPI()
