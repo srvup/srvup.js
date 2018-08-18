@@ -61,7 +61,10 @@ class SrvupAPI {
   get = (path, callback, includeAuth = true) => {
     const options = this.getOptions('get', {}, includeAuth)
     let status = 0
-    let endpoint = this.getEndpoint(path)
+    let endpoint = path
+    if (!path.includes(this.apiEndpoint)) {
+       endpoint = this.getEndpoint(path)
+    }
     fetch(endpoint, options)
       .then(function (response) {
         status = response.status
@@ -73,7 +76,7 @@ class SrvupAPI {
         }
       })
       .catch(function (ex) {
-        alert('An unexpected error occured. Please try again')
+        // alert('An unexpected error occured. Please try again')
         console.log('parsing failed', ex)
       })
   }
@@ -92,7 +95,7 @@ class SrvupAPI {
         }
       })
       .catch(function (ex) {
-        alert('An unexpected error occured. Please try again')
+        // alert('An unexpected error occured. Please try again')
         console.log('parsing failed', ex)
       })
   }
@@ -111,7 +114,7 @@ class SrvupAPI {
         }
       })
       .catch(function (ex) {
-        alert('An unexpected error occured. Please try again')
+        // alert('An unexpected error occured. Please try again')
         console.log('parsing failed', ex)
       })
   }
@@ -131,7 +134,7 @@ class SrvupAPI {
       }).then(function (data) {
       })
       .catch(function (ex) {
-        alert('An unexpected error occured while deleting. Please try again')
+        // alert('An unexpected error occured while deleting. Please try again')
         console.log('parsing failed', ex)
       })
   }
