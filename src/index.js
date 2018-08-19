@@ -49,7 +49,7 @@ class SrvupAPI {
         // console.log(jwtData)
         const expires = jwtData.exp * 1000
         window.localStorage.setItem('srvupTokenExp', expires)
-        window.localStorage.setItem('srvupUser', JSON.stringify(jwtData))
+        window.localStorage.setItem('srvupUser', JSON.stringify(data['user']))
         loginCallback(data, statusCode)
       }
     }, false)
