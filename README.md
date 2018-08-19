@@ -1,6 +1,6 @@
-# srvup
+# srvup.js
 
-> srvup api client
+The official srvup javascript client. Useful for API calls and UI elements.
 
 [![NPM](https://img.shields.io/npm/v/srvup.svg)](https://www.npmjs.com/package/srvup) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
@@ -9,8 +9,10 @@
 ```bash
 npm install --save srvup
 ```
+## [Docs](https://docs.srvup.com)
 
-## Usage
+## Basic Usage
+Read the [docs](https://docs.srvup.com) for more.
 
 #### `GET` requests
 ```jsx

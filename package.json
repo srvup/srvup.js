@@ -68,6 +68,7 @@
     "emoji-dictionary": "^1.0.9",
     "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.22.2",
     "react-markdown": "^3.4.1",
     "react-syntax-highlighter": "^8.0.1",
     "remark": "^9.0.0",
