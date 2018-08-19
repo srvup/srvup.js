@@ -205,8 +205,8 @@ class SrvupAPI {
     return this.get(path, callback)
   }
 
-  commentCreate(path, content, callback, parent=''){
-    return this.post(path, {content: content, parent: parent}, callback, true)
+  commentCreate(path, data, callback){
+    return this.post(path, data, callback, true)
   }
   
 
