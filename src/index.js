@@ -1,5 +1,5 @@
 import {Markdown} from './markdown'
-
+var jwtDecode = require('jwt-decode');
 var History = require("history")
 
 function checkResponseStatus (response) {
@@ -8,13 +8,13 @@ function checkResponseStatus (response) {
   if (status === 401) {
     History.push({
       pathname: '/login',
-      search: `?next=${location.pathname}`
+      search: `?next=${location.url}`
     })
   } else if (status === 403) {
 
     History.push({
       pathname: '/login',
-      search: `?next=${location.pathname}`
+      search: `?next=${location.url}`
     })
   }
 }
@@ -39,12 +39,33 @@ class SrvupAPI {
   }
 
   login = (username, password, loginCallback) => {
-    return this.post('/login/', {username: username, password:password}, loginCallback, false)
+    return this.post('/login/', {username: username, password:password}, (data, statusCode) =>{
+      if (statusCode >= 400 && statusCode <= 499) {
+        loginCallback(data, statusCode)
+      } else {
+        this.userToken(data.token)
+        window.localStorage.setItem('srvupToken', data.token)
+        let jwtData = jwtDecode(data.token)
+        // console.log(jwtData)
+        const expires = jwtData.exp * 1000
+        window.localStorage.setItem('srvupTokenExp', expires)
+        window.localStorage.setItem('srvupUser', JSON.stringify(jwtData))
+        loginCallback(data, statusCode)
+      }
+    }, false)
   }
+
+  logout = () =>{
+    window.localStorage.removeItem('srvupToken')
+      // window.localStorage.getItem('username')
+     window.localStorage.removeItem('srvupTokenExp')
+  }
+
 
   verityToken = (path, callback) => {
     const endpoint  = this.getEndpoint(path)
-    const options   = this.getOptions('post', {"token": this.token}, false)
+    const token = window.localStorage.getItem('srvupToken')
+    const options   = this.getOptions('post', {"token": token}, false)
     const _this = this
     let status = 0
     fetch(endpoint, options)
@@ -53,9 +74,11 @@ class SrvupAPI {
         return response.json()
       }).then(function (data) {
         if (status === 200) {
-          _this.userToken(data['token'])
+          // _this.userToken(data['token'])
+          window.localStorage.setItem('srvupToken', data['token'])
         } else {
-          _this.userToken(null)
+          // _this.userToken(null)
+          _this.logout()
         }
         callback(data, status)
         return (data, status)
@@ -87,8 +110,9 @@ class SrvupAPI {
       method: method
 
     }
-    if (this.token && includeAuth) {
-      lookupOptions['headers']['Authorization'] = `JWT ${this.token}`
+    let token = window.localStorage.getItem('srvupToken')
+    if (token && includeAuth) {
+      lookupOptions['headers']['Authorization'] = `JWT ${token}`
     }
     if (Object.keys(data).length > 0) {
       lookupOptions['body'] = JSON.stringify(data)
@@ -181,8 +205,8 @@ class SrvupAPI {
     return this.get(path, callback)
   }
 
-  commentCreate(path, content, callback, parent=null){
-    return this.post(path, {content: content, parent: parent}, callback)
+  commentCreate(path, content, callback, parent=''){
+    return this.post(path, {content: content, parent: parent}, callback, true)
   }
   
 
