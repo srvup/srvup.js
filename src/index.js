@@ -8,13 +8,13 @@ function checkResponseStatus (response) {
   if (status === 401) {
     History.push({
       pathname: '/login',
-      search: `?next=${location.url}`
+      search: `?next=${location.pathname}${location.search}${location.hash}`
     })
   } else if (status === 403) {
 
     History.push({
       pathname: '/login',
-      search: `?next=${location.url}`
+      search: `?next=${location.pathname}${location.search}${location.hash}`
     })
   }
 }
