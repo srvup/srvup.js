@@ -1,6 +1,6 @@
 {
   "name": "srvup",
-  "version": "0.0.767",
+  "version": "0.0.775",
   "description": "srvup api client",
   "keywords": [
     "srvup",
@@ -66,7 +66,6 @@
   ],
   "dependencies": {
     "emoji-dictionary": "^1.0.9",
-    "history": "^4.7.2",
     "jwt-decode": "^2.2.0",
     "moment": "^2.22.2",
     "react-markdown": "^3.4.1",

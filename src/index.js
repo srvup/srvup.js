@@ -1,21 +1,22 @@
 import {Markdown} from './markdown'
 var jwtDecode = require('jwt-decode');
-var History = require("history")
 
-function checkResponseStatus (response) {
-  const location = History.location
-  let status = response.status
-  if (status === 401) {
-    History.push({
-      pathname: '/login',
-      search: `?next=${location.pathname}${location.search}${location.hash}`
-    })
-  } else if (status === 403) {
 
-    History.push({
-      pathname: '/login',
-      search: `?next=${location.pathname}${location.search}${location.hash}`
-    })
+function handleLoginRequired (responseStatus, history, forceGo=false) {
+  if (history && responseStatus) {
+    const location = history.location
+    let status = responseStatus.status || responseStatus
+    if (!location.pathname.includes('/login') || !location.pathname.includes('/signin') || !location.pathname.includes('/register')){
+      if (status === 401 || status === 403) {
+        history.push({
+          pathname: '/login',
+          search: `?next=${location.pathname}${location.search}${location.hash}&error=${status}`
+        })
+        if (forceGo) {
+          history.go()
+        }
+      }
+    }
   }
 }
 
@@ -58,7 +59,7 @@ class SrvupAPI {
   logout = () =>{
     window.localStorage.removeItem('srvupToken')
       // window.localStorage.getItem('username')
-     window.localStorage.removeItem('srvupTokenExp')
+    window.localStorage.removeItem('srvupTokenExp')
   }
 
 
@@ -130,7 +131,7 @@ class SrvupAPI {
     fetch(endpoint, options)
       .then(function (response) {
         status = response.status
-        checkResponseStatus(response)
+        // checkResponseStatus(response)
         return response.json()
       }).then(function (data) {
         if (callback) {
@@ -149,7 +150,7 @@ class SrvupAPI {
     fetch(endpoint, options)
       .then(function (response) {
         status = response.status
-        checkResponseStatus(response)
+        // checkResponseStatus(response)
         return response.json()
       }).then(function (data) {
         if (callback) {
@@ -168,7 +169,7 @@ class SrvupAPI {
     fetch(endpoint, options)
       .then(function (response) {
         status = response.status
-        checkResponseStatus(response)
+        // checkResponseStatus(response)
         return response.json()
       }).then(function (data) {
         if (callback) {
@@ -188,7 +189,7 @@ class SrvupAPI {
     fetch(this.endpoint, options)
       .then(function (response) {
         status = response.status
-        checkResponseStatus(response)
+        // checkResponseStatus(response)
         if (callback) {
           callback(response, status)
         }
@@ -211,6 +212,22 @@ class SrvupAPI {
   
 
 
+  courses = (callback, slug = null) => {
+    let path = '/courses/'
+    if (slug !== null) {
+      path = `/courses/${slug}/`
+    }
+    return this.get(path, callback)
+  }
+
+  lessons = (callback, courseSlug=null, lessonSlug = null) => {
+    let path = '/courses/'
+    if (courseSlug !== null && lessonSlug !== null) {
+      path = `/courses/${courseSlug}/lessons/${lessonSlug}`
+    }
+    return this.get(path, callback)
+  }
+
   posts = (callback, slug = null) => {
     let path = '/posts/'
     if (slug !== null) {
@@ -228,5 +245,5 @@ class SrvupAPI {
 }
 
 const Srvup = new SrvupAPI()
-export {Markdown}
+export {Markdown, handleLoginRequired}
 export default Srvup
