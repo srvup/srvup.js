@@ -49,6 +49,21 @@ class SrvupAPI {
     }, false)
   }
 
+  isLoggedIn = () => {
+    const token = window.localStorage.getItem('srvupToken')
+    const tokenExp = window.localStorage.getItem('srvupTokenExp')
+    const now = new Date()
+    const expires = new Date(parseInt(tokenExp, 10))
+    if (!token || !tokenExp) {
+      return false
+    } else if (now > expires) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+
   register = (registerData, registerCallback) => {
     return this.post('/register/', registerData, (data, statusCode) =>{
       if (statusCode >= 400 && statusCode <= 499) {
