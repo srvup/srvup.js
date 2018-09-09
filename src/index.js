@@ -25,7 +25,6 @@ class SrvupAPI {
   constructor () {
     this.key = null
     this.apiEndpoint = 'https://api.srvup.com/v1'
-    this.token = null
   }
   api = (key, apiEndpoint) => {
     this.key = key
@@ -35,23 +34,32 @@ class SrvupAPI {
     
   }
 
-  userToken = (token) => {
-      this.token = token
-  }
-
   login = (username, password, loginCallback) => {
     return this.post('/login/', {username: username, password:password}, (data, statusCode) =>{
       if (statusCode >= 400 && statusCode <= 499) {
         loginCallback(data, statusCode)
       } else {
-        this.userToken(data.token)
         window.localStorage.setItem('srvupToken', data.token)
         let jwtData = jwtDecode(data.token)
-        // console.log(jwtData)
         const expires = jwtData.exp * 1000
         window.localStorage.setItem('srvupTokenExp', expires)
         window.localStorage.setItem('srvupUser', JSON.stringify(data['user']))
         loginCallback(data, statusCode)
+      }
+    }, false)
+  }
+
+  register = (registerData, registerCallback) => {
+    return this.post('/register/', registerData, (data, statusCode) =>{
+      if (statusCode >= 400 && statusCode <= 499) {
+        registerCallback(data, statusCode)
+      } else {
+        window.localStorage.setItem('srvupToken', data.token)
+        let jwtData = jwtDecode(data.token)
+        const expires = jwtData.exp * 1000
+        window.localStorage.setItem('srvupTokenExp', expires)
+        window.localStorage.setItem('srvupUser', JSON.stringify(data['user']))
+        registerCallback(data, statusCode)
       }
     }, false)
   }
